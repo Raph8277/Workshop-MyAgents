@@ -37,10 +37,6 @@ if (string.IsNullOrEmpty(outputDirectory))
 }
 
 Directory.CreateDirectory(outputDirectory);
-if (File.Exists(outputDbPath))
-{
-    File.Delete(outputDbPath);
-}
 
 var connectionString = new SqliteConnectionStringBuilder
 {
@@ -50,6 +46,8 @@ var connectionString = new SqliteConnectionStringBuilder
 
 using var connection = new SqliteConnection(connectionString);
 connection.Open();
+
+ResetDatabase(connection);
 
 foreach (var migrationFile in Directory.GetFiles(migrationsPath, "*.sql").OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
 {
@@ -66,5 +64,28 @@ static void ExecuteScript(SqliteConnection connection, string scriptPath)
     var sql = File.ReadAllText(scriptPath);
     using var command = connection.CreateCommand();
     command.CommandText = sql;
+    command.ExecuteNonQuery();
+}
+
+static void ResetDatabase(SqliteConnection connection)
+{
+    const string resetSql = @"
+PRAGMA foreign_keys = OFF;
+DROP TABLE IF EXISTS album_contributor;
+DROP TABLE IF EXISTS album;
+DROP TABLE IF EXISTS contributor;
+DROP TABLE IF EXISTS series;
+DROP TABLE IF EXISTS reservation;
+DROP TABLE IF EXISTS loan;
+DROP TABLE IF EXISTS book_copy;
+DROP TABLE IF EXISTS book_author;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS author;
+PRAGMA foreign_keys = ON;";
+
+    using var command = connection.CreateCommand();
+    command.CommandText = resetSql;
     command.ExecuteNonQuery();
 }

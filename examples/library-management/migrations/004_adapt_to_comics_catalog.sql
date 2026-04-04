@@ -1,6 +1,13 @@
-PRAGMA foreign_keys = ON;
+BEGIN TRANSACTION;
 
--- Initial catalog schema for Les Chroniques de la Lune Noire.
+DROP TABLE IF EXISTS reservation;
+DROP TABLE IF EXISTS loan;
+DROP TABLE IF EXISTS book_copy;
+DROP TABLE IF EXISTS book_author;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS author;
 
 CREATE TABLE IF NOT EXISTS series (
     id INTEGER PRIMARY KEY,
@@ -37,3 +44,5 @@ CREATE TABLE IF NOT EXISTS album_contributor (
 CREATE INDEX IF NOT EXISTS idx_album_series_id ON album(series_id);
 CREATE INDEX IF NOT EXISTS idx_album_release_year ON album(release_year);
 CREATE INDEX IF NOT EXISTS idx_album_contributor_contributor_id ON album_contributor(contributor_id);
+
+COMMIT;

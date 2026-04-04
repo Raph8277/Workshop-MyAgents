@@ -1,18 +1,14 @@
-# Base SQLite de gestion de bibliotheque
+# Base SQLite de catalogue BD
 
-Cette base couvre la gestion des livres, auteurs, adherents, exemplaires, emprunts et reservations.
+Cette base couvre un catalogue d'albums centre sur `Les Chroniques de la Lune Noire`.
 
-Les livres exposent aussi un champ `description` et un champ `cover_image_url` pour permettre l'affichage detaille des ouvrages dans une interface.
+Le modele a ete adapte pour integrer directement les elements du jeu de donnees : numero de volume, titre, annee, auteur de dessin, resume et visuel.
 
 ## Tables principales
-- `author`: reference les auteurs.
-- `category`: classe les livres par categorie.
-- `member`: stocke les adherents de la bibliotheque.
-- `book`: decrit les ouvrages.
-- `book_author`: gere la relation plusieurs-a-plusieurs entre livres et auteurs.
-- `book_copy`: represente les exemplaires physiques disponibles au pret.
-- `loan`: suit les emprunts des exemplaires.
-- `reservation`: suit les reservations par ouvrage.
+- `series`: reference la saga ou collection.
+- `contributor`: reference les dessinateurs.
+- `album`: stocke les volumes avec leur numero, annee, resume et visuel.
+- `album_contributor`: gere l'association entre album et contributeur, ici avec le role `dessin`.
 
 ## Flux de construction
 1. Appliquer les migrations dans `examples/library-management/migrations/` dans l'ordre numerique.
@@ -21,88 +17,56 @@ Les livres exposent aussi un champ `description` et un champ `cover_image_url` p
 
 ## Exemple de seed
 ```sql
-INSERT INTO member (id, member_number, full_name, email, joined_on, phone, status)
-VALUES (1, 'MBR-001', 'Alice Martin', 'alice.martin@example.org', '2026-01-15', '+33140000001', 'active');
+INSERT INTO album (id, series_id, volume_number, title, release_year, summary, cover_image_url)
+VALUES (1, 1, 0, 'En un jeu cruel', 2011, 'Origines de Wismerhill et du jeu infernal', 'https://www.dargaud.com/sites/default/files/styles/album/public/album/9782205069236_001.jpg');
 ```
 
 ## Exemple de migration
 ```sql
-ALTER TABLE member ADD COLUMN phone TEXT;
-```
-
-## Exemple de presentation de livre
-```sql
-ALTER TABLE book ADD COLUMN description TEXT;
-ALTER TABLE book ADD COLUMN cover_image_url TEXT;
+CREATE TABLE IF NOT EXISTS album (
+    id INTEGER PRIMARY KEY,
+    series_id INTEGER NOT NULL,
+    volume_number INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    release_year INTEGER NOT NULL,
+    summary TEXT NOT NULL,
+    cover_image_url TEXT NOT NULL UNIQUE,
+    UNIQUE (series_id, volume_number)
+);
 ```
 
 ## Diagramme Mermaid ER
 ```mermaid
 erDiagram
-    category ||--o{ book : classifies
-    book ||--o{ book_copy : has
-    book ||--o{ reservation : receives
-    member ||--o{ loan : borrows
-    member ||--o{ reservation : places
-    book_copy ||--o{ loan : is_loaned_in
-    book ||--o{ book_author : links
-    author ||--o{ book_author : writes
+    series ||--o{ album : contains
+    contributor ||--o{ album_contributor : contributes
+    album ||--o{ album_contributor : credits
 
-    author {
-        INTEGER id PK
-        TEXT full_name
-        INTEGER birth_year
-        TEXT country_code
-    }
-
-    category {
+    series {
         INTEGER id PK
         TEXT code UK
-        TEXT label UK
+        TEXT title UK
     }
 
-    member {
+    contributor {
         INTEGER id PK
-        TEXT member_number UK
-        TEXT full_name
-        TEXT email UK
-        TEXT joined_on
-        TEXT status
+        TEXT display_name UK
     }
 
-    book {
+    album {
         INTEGER id PK
-        TEXT isbn UK
+        INTEGER series_id FK
+        INTEGER volume_number
         TEXT title
-        TEXT description
+        INTEGER release_year
+        TEXT summary
         TEXT cover_image_url
-        INTEGER publication_year
-        INTEGER category_id FK
     }
 
-    book_copy {
-        INTEGER id PK
-        INTEGER book_id FK
-        TEXT inventory_code UK
-        TEXT acquired_on
-        TEXT copy_status
-    }
-
-    loan {
-        INTEGER id PK
-        INTEGER copy_id FK
-        INTEGER member_id FK
-        TEXT loaned_on
-        TEXT due_on
-        TEXT returned_on
-    }
-
-    reservation {
-        INTEGER id PK
-        INTEGER book_id FK
-        INTEGER member_id FK
-        TEXT reserved_on
-        TEXT reservation_status
+    album_contributor {
+        INTEGER album_id FK
+        INTEGER contributor_id FK
+        TEXT contribution_type
     }
 ```
 

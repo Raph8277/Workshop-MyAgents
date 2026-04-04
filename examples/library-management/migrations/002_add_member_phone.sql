@@ -1,14 +1,5 @@
 BEGIN TRANSACTION;
 
-ALTER TABLE member ADD COLUMN phone TEXT;
-
-UPDATE member
-SET phone = CASE member_number
-    WHEN 'MBR-001' THEN '+33140000001'
-    WHEN 'MBR-002' THEN '+33140000002'
-    WHEN 'MBR-003' THEN '+33140000003'
-    ELSE NULL
-END
-WHERE phone IS NULL;
+-- Reserved migration slot kept for workshop continuity.
 
 COMMIT;
