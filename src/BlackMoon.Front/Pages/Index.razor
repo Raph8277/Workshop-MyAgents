@@ -1,0 +1,306 @@
+﻿@page "/"
+@inject BlackMoon.Front.Services.ICatalogViewService CatalogViewService
+@inject ISnackbar Snackbar
+
+<PageTitle>Fantasy Comics Catalog</PageTitle>
+
+<MudStack Row="false" Spacing="3">
+	<MudPaper Class="pa-4" Elevation="0" Outlined="true">
+		<MudText Typo="Typo.h3">Fantasy Comics Catalog</MudText>
+		<MudText Typo="Typo.body1" Class="mt-2">
+			Front Blazor Server avec MudBlazor, backend gRPC, couche service DDD et couche données basée sur EF Core et repositories pour Les Chroniques de la Lune Noire, Elric et Hawkmoon.
+		</MudText>
+	</MudPaper>
+
+	@if (_isLoading)
+	{
+		<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+	}
+	else if (!string.IsNullOrWhiteSpace(_errorMessage))
+	{
+		<MudAlert Severity="Severity.Error" Variant="Variant.Filled">@_errorMessage</MudAlert>
+	}
+	else
+	{
+		<MudPaper Class="pa-4 filter-panel" Elevation="0" Outlined="true">
+			<MudGrid AlignItems="AlignItems.Center">
+				<MudItem xs="12" md="5">
+					<MudTextField T="string"
+						Label="Filtrer le catalogue"
+						Placeholder="Titre, série, résumé ou dessinateur"
+						Value="@_searchText"
+						ValueChanged="OnSearchTextChanged"
+						Immediate="true"
+						Clearable="true"
+						Variant="Variant.Outlined"
+						Adornment="Adornment.Start"
+						AdornmentIcon="@Icons.Material.Filled.Search" />
+				</MudItem>
+				<MudItem xs="12" md="3">
+					<MudSelect T="string" Label="Série" Value="@_selectedSeries" ValueChanged="OnSeriesChanged" Variant="Variant.Outlined">
+						<MudSelectItem Value="@AllSeriesValue">Toutes les séries</MudSelectItem>
+						@foreach (var series in SeriesOptions)
+						{
+							<MudSelectItem Value="@series">@series</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" md="2">
+					<MudSelect T="string" Label="Possede" Value="@_selectedOwnedFilter" ValueChanged="OnOwnedFilterChanged" Variant="Variant.Outlined">
+						<MudSelectItem Value="@OwnedFilterAllValue">Tous</MudSelectItem>
+						<MudSelectItem Value="@OwnedFilterOwnedValue">Possedes</MudSelectItem>
+						<MudSelectItem Value="@OwnedFilterMissingValue">Manquants</MudSelectItem>
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" md="2">
+					<MudText Typo="Typo.body2" Class="filter-result-count">@FilteredAlbums.Count album(s)</MudText>
+				</MudItem>
+			</MudGrid>
+		</MudPaper>
+
+		<MudGrid>
+			@foreach (var album in FilteredAlbums)
+			{
+				var fallbackCoverUrl = BuildFallbackCoverDataUrl(album);
+				var hasAlbumUrl = !string.IsNullOrWhiteSpace(album.DargaudUrl);
+				<MudItem xs="12" sm="6" md="4" lg="3">
+					<MudCard Class="@GetCardClass(album)">
+						@if (hasAlbumUrl)
+						{
+							<a href="@album.DargaudUrl"
+							   target="_blank"
+							   rel="noopener noreferrer"
+							   class="cover-link"
+							   aria-label="Ouvrir la fiche de @album.Title">
+								<div class="cover-panel"
+								   style="display:flex; align-items:center; justify-content:center; width:100%; height:320px; max-height:320px; padding:16px; overflow:hidden; text-align:center; background:var(--mud-palette-surface); border-bottom:1px solid rgba(255,255,255,0.08);">
+									<img src="@album.CoverImageUrl"
+										 alt="Couverture de @album.Title"
+										 class="cover-image"
+										 style="display:block; width:auto; height:auto; max-width:100%; max-height:288px; object-fit:contain; margin:auto;"
+										 data-fallback="@fallbackCoverUrl"
+										 onerror="this.onerror=null; this.src=this.dataset.fallback;" />
+								</div>
+							</a>
+						}
+						else
+						{
+							<div class="cover-panel"
+							   style="display:flex; align-items:center; justify-content:center; width:100%; height:320px; max-height:320px; padding:16px; overflow:hidden; text-align:center; background:var(--mud-palette-surface); border-bottom:1px solid rgba(255,255,255,0.08);">
+								<img src="@album.CoverImageUrl"
+									 alt="Couverture de @album.Title"
+									 class="cover-image"
+									 style="display:block; width:auto; height:auto; max-width:100%; max-height:288px; object-fit:contain; margin:auto;"
+									 data-fallback="@fallbackCoverUrl"
+									 onerror="this.onerror=null; this.src=this.dataset.fallback;" />
+							</div>
+						}
+						<MudCardContent>
+							<MudText Typo="Typo.subtitle2" Color="Color.Secondary">Volume @album.VolumeNumber</MudText>
+							<MudText Typo="Typo.h6">@album.Title</MudText>
+							<MudText Typo="Typo.caption">@album.ReleaseYear</MudText>
+							<MudText Typo="Typo.body2" Class="mt-2">@album.Summary</MudText>
+							@if (hasAlbumUrl)
+							{
+								<MudLink Href="@album.DargaudUrl"
+									 Target="_blank"
+									 Class="editor-link mt-3"
+									 Underline="Underline.Hover">
+									Voir la fiche editeur
+								</MudLink>
+							}
+							<MudCheckBox T="bool"
+								Label="Deja possede"
+								Value="@album.IsOwned"
+								ValueChanged="@(value => OnOwnedChangedAsync(album, value))"
+								Disabled="@_updatingOwnedAlbumIds.Contains(album.Id)"
+								Color="Color.Success"
+								Class="mt-3" />
+							<MudChipSet Class="mt-3">
+								@foreach (var illustrator in album.Illustrators)
+								{
+									<MudChip Color="Color.Primary" Variant="Variant.Outlined">@illustrator</MudChip>
+								}
+							</MudChipSet>
+						</MudCardContent>
+					</MudCard>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+</MudStack>
+
+@code {
+	private const string AllSeriesValue = "__all__";
+	private const string OwnedFilterAllValue = "__all__";
+	private const string OwnedFilterOwnedValue = "__owned__";
+	private const string OwnedFilterMissingValue = "__missing__";
+	private IReadOnlyList<AlbumCardModel> _albums = Array.Empty<AlbumCardModel>();
+	private bool _isLoading = true;
+	private string? _errorMessage;
+	private string _searchText = string.Empty;
+	private string _selectedSeries = AllSeriesValue;
+	private string _selectedOwnedFilter = OwnedFilterAllValue;
+	private readonly HashSet<int> _updatingOwnedAlbumIds = new();
+
+	private IReadOnlyList<AlbumCardModel> FilteredAlbums => _albums
+		.Where(MatchesCurrentFilter)
+		.OrderBy(album => album.SeriesTitle)
+		.ThenBy(album => album.VolumeNumber)
+		.ThenBy(album => album.Title)
+		.ToArray();
+
+	private IReadOnlyList<string> SeriesOptions => _albums
+		.Select(album => album.SeriesTitle)
+		.Where(title => !string.IsNullOrWhiteSpace(title))
+		.Distinct(StringComparer.OrdinalIgnoreCase)
+		.OrderBy(title => title)
+		.ToArray();
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			_albums = await CatalogViewService.GetCatalogAsync();
+		}
+		catch (Exception exception)
+		{
+			_errorMessage = $"Impossible de charger le catalogue: {exception.Message}";
+		}
+		finally
+		{
+			_isLoading = false;
+		}
+	}
+
+	private Task OnSearchTextChanged(string? value)
+	{
+		_searchText = value?.Trim() ?? string.Empty;
+		return Task.CompletedTask;
+	}
+
+	private Task OnSeriesChanged(string? value)
+	{
+		_selectedSeries = string.IsNullOrWhiteSpace(value) ? AllSeriesValue : value;
+		return Task.CompletedTask;
+	}
+
+	private Task OnOwnedFilterChanged(string? value)
+	{
+		_selectedOwnedFilter = string.IsNullOrWhiteSpace(value) ? OwnedFilterAllValue : value;
+		return Task.CompletedTask;
+	}
+
+	private bool MatchesCurrentFilter(AlbumCardModel album)
+	{
+		if (!string.Equals(_selectedSeries, AllSeriesValue, StringComparison.Ordinal) &&
+			!string.Equals(album.SeriesTitle, _selectedSeries, StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+
+		if (string.Equals(_selectedOwnedFilter, OwnedFilterOwnedValue, StringComparison.Ordinal) && !album.IsOwned)
+		{
+			return false;
+		}
+
+		if (string.Equals(_selectedOwnedFilter, OwnedFilterMissingValue, StringComparison.Ordinal) && album.IsOwned)
+		{
+			return false;
+		}
+
+		if (string.IsNullOrWhiteSpace(_searchText))
+		{
+			return true;
+		}
+
+		var filter = _searchText.Trim();
+		return Contains(album.Title, filter)
+			|| Contains(album.SeriesTitle, filter)
+			|| Contains(album.Summary, filter)
+			|| Contains(album.DargaudPublicationDate, filter)
+			|| Contains(album.ReleaseYear.ToString(), filter)
+			|| album.Illustrators.Any(illustrator => Contains(illustrator, filter));
+	}
+
+	private static bool Contains(string? source, string filter)
+	{
+		return !string.IsNullOrWhiteSpace(source)
+			&& source.Contains(filter, StringComparison.OrdinalIgnoreCase);
+	}
+
+	private string GetCardClass(AlbumCardModel album)
+	{
+		return album.IsOwned ? "fill-height catalog-card catalog-card-owned" : "fill-height catalog-card";
+	}
+
+	private async Task OnOwnedChangedAsync(AlbumCardModel album, bool value)
+	{
+		if (_updatingOwnedAlbumIds.Contains(album.Id) || album.IsOwned == value)
+		{
+			return;
+		}
+
+		_updatingOwnedAlbumIds.Add(album.Id);
+		var originalAlbum = album;
+		ReplaceAlbum(album with { IsOwned = value });
+
+		try
+		{
+			var updatedAlbum = await CatalogViewService.SetOwnedAsync(album.Id, value);
+			ReplaceAlbum(updatedAlbum);
+		}
+		catch (Exception exception)
+		{
+			ReplaceAlbum(originalAlbum);
+			Snackbar.Add($"Impossible de mettre a jour l'etat de possession: {exception.Message}", Severity.Error);
+		}
+		finally
+		{
+			_updatingOwnedAlbumIds.Remove(album.Id);
+		}
+	}
+
+	private void ReplaceAlbum(AlbumCardModel updatedAlbum)
+	{
+		var updatedAlbums = _albums.ToArray();
+		var index = Array.FindIndex(updatedAlbums, item => item.Id == updatedAlbum.Id);
+
+		if (index < 0)
+		{
+			return;
+		}
+
+		updatedAlbums[index] = updatedAlbum;
+		_albums = updatedAlbums;
+	}
+
+	private static string BuildFallbackCoverDataUrl(AlbumCardModel album)
+	{
+		var title = System.Security.SecurityElement.Escape(album.Title) ?? album.Title;
+		var series = System.Security.SecurityElement.Escape(album.SeriesTitle) ?? album.SeriesTitle;
+		var illustrator = album.Illustrators.FirstOrDefault() ?? "Illustrateur inconnu";
+		illustrator = System.Security.SecurityElement.Escape(illustrator) ?? illustrator;
+
+		var svg =
+			$"<svg xmlns='http://www.w3.org/2000/svg' width='600' height='900' viewBox='0 0 600 900'>" +
+			"<defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>" +
+			"<stop offset='0%' stop-color='#111827'/>" +
+			"<stop offset='55%' stop-color='#1f2937'/>" +
+			"<stop offset='100%' stop-color='#b91c1c'/>" +
+			"</linearGradient></defs>" +
+			"<rect width='600' height='900' fill='url(#bg)'/>" +
+			"<rect x='36' y='36' width='528' height='828' rx='18' fill='none' stroke='rgba(255,255,255,0.28)' stroke-width='2'/>" +
+			$"<text x='54' y='96' fill='#fca5a5' font-family='Segoe UI, Arial, sans-serif' font-size='24' letter-spacing='2'>VOLUME {album.VolumeNumber}</text>" +
+			$"<text x='54' y='150' fill='white' font-family='Segoe UI, Arial, sans-serif' font-size='26'>{series}</text>" +
+			"<foreignObject x='54' y='210' width='492' height='340'>" +
+			$"<div xmlns='http://www.w3.org/1999/xhtml' style='color:white;font-family:Segoe UI, Arial, sans-serif;font-size:56px;font-weight:700;line-height:1.02;'>{title}</div>" +
+			"</foreignObject>" +
+			$"<text x='54' y='770' fill='#e5e7eb' font-family='Segoe UI, Arial, sans-serif' font-size='26'>{album.ReleaseYear}</text>" +
+			$"<text x='54' y='814' fill='#f3f4f6' font-family='Segoe UI, Arial, sans-serif' font-size='24'>Dessins : {illustrator}</text>" +
+			"<text x='54' y='856' fill='#fca5a5' font-family='Segoe UI, Arial, sans-serif' font-size='20'>Visuel local de remplacement</text>" +
+			"</svg>";
+
+		return $"data:image/svg+xml;charset=utf-8,{Uri.EscapeDataString(svg)}";
+	}
+}

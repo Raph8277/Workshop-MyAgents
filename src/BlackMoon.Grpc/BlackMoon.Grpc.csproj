@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.64.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlackMoon.Application\BlackMoon.Application.csproj" />
+    <ProjectReference Include="..\BlackMoon.Infrastructure\BlackMoon.Infrastructure.csproj" />
+    <ProjectReference Include="..\BlackMoon.Contracts\BlackMoon.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

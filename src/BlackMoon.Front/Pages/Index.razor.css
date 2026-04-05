@@ -1,0 +1,82 @@
+.filter-panel {
+	border-radius: 14px;
+}
+
+.filter-result-count {
+	padding-top: 10px;
+	text-align: right;
+}
+
+.catalog-card {
+	border: 1px solid color-mix(in srgb, var(--mud-palette-lines-default) 80%, transparent 20%);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog-card-owned {
+	border-color: color-mix(in srgb, var(--mud-palette-success) 65%, white 35%);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--mud-palette-success) 28%, transparent 72%);
+}
+
+.cover-link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.cover-link .cover-panel {
+	cursor: pointer;
+}
+
+.editor-link {
+	display: inline-flex;
+	align-items: center;
+	font-weight: 500;
+}
+
+.cover-panel {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--mud-palette-surface) 88%, white 12%) 0%,
+		var(--mud-palette-surface) 100%);
+	border-bottom: 1px solid color-mix(in srgb, var(--mud-palette-text-primary) 12%, transparent 88%);
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.catalog-card:hover .cover-panel {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--mud-palette-surface) 82%, var(--mud-palette-primary) 18%) 0%,
+		var(--mud-palette-surface) 100%);
+	border-bottom-color: color-mix(in srgb, var(--mud-palette-primary) 35%, transparent 65%);
+}
+
+.cover-image {
+	filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.18));
+}
+
+:global(.mud-theme-dark) .cover-panel {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--mud-palette-surface) 92%, black 8%) 0%,
+		color-mix(in srgb, var(--mud-palette-background) 35%, var(--mud-palette-surface) 65%) 100%);
+	border-bottom-color: color-mix(in srgb, var(--mud-palette-text-primary) 16%, transparent 84%);
+}
+
+:global(.mud-theme-dark) .catalog-card-owned {
+	border-color: color-mix(in srgb, var(--mud-palette-success) 72%, white 28%);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--mud-palette-success) 35%, transparent 65%);
+}
+
+:global(.mud-theme-dark) .catalog-card:hover .cover-panel {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--mud-palette-surface) 80%, var(--mud-palette-primary) 20%) 0%,
+		color-mix(in srgb, var(--mud-palette-background) 30%, var(--mud-palette-surface) 70%) 100%);
+}
+
+@media (max-width: 959.98px) {
+	.filter-result-count {
+		padding-top: 0;
+		text-align: left;
+	}
+}

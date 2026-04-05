@@ -1,0 +1,59 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_theme" @bind-IsDarkMode="_isDarkMode" />
+
+<MudPaper Square="true" Elevation="0" Class="pa-4 layout-header">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap">
+        <MudStack Spacing="0">
+            <MudText Typo="Typo.h5">BlackMoon.Front</MudText>
+            <MudText Typo="Typo.body2">Blazor Server + MudBlazor</MudText>
+        </MudStack>
+
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+            <MudText Typo="Typo.body2">Darker</MudText>
+            <MudSwitch @bind-Value="_isDarkMode" Color="Color.Error" />
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+    <MudPaper Elevation="0" Outlined="true" Class="pa-3 mb-4 layout-nav">
+        <NavMenu />
+    </MudPaper>
+
+    @Body
+</MudContainer>
+
+@code {
+    private bool _isDarkMode = true;
+
+    private static readonly MudTheme _theme = new()
+    {
+        Palette = new Palette
+        {
+            Primary = "#7f1d1d",
+            Secondary = "#1f2937",
+            Background = "#f4efe7",
+            Surface = "#fffaf2",
+            AppbarBackground = "#fffaf2",
+            AppbarText = "#1f2937",
+            DrawerBackground = "#fffaf2",
+            DrawerText = "#1f2937",
+            TextPrimary = "#111827",
+            TextSecondary = "#4b5563"
+        },
+        PaletteDark = new PaletteDark
+        {
+            Primary = "#f87171",
+            Secondary = "#f59e0b",
+            Background = "#0b0b0f",
+            Surface = "#15151b",
+            AppbarBackground = "#15151b",
+            AppbarText = "#f3f4f6",
+            DrawerBackground = "#15151b",
+            DrawerText = "#f3f4f6",
+            TextPrimary = "#f3f4f6",
+            TextSecondary = "#d1d5db"
+        }
+    };
+}

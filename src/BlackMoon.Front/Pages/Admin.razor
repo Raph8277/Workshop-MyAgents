@@ -1,0 +1,168 @@
+@page "/admin"
+@inject BlackMoon.Front.Services.ICatalogViewService CatalogViewService
+@inject ISnackbar Snackbar
+
+<PageTitle>Administration</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" md="7">
+        <MudPaper Class="pa-4" Outlined="true">
+            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+                <MudText Typo="Typo.h4">Administration du catalogue</MudText>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="PrepareCreate">Nouvel album</MudButton>
+            </MudStack>
+
+            @if (_isLoading)
+            {
+                <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+            }
+            else
+            {
+                <MudTable Items="_albums" Hover="true" Dense="true" Breakpoint="Breakpoint.Sm">
+                    <HeaderContent>
+                        <MudTh>Volume</MudTh>
+                        <MudTh>Titre</MudTh>
+                        <MudTh>Annee</MudTh>
+                        <MudTh>Possede</MudTh>
+                        <MudTh>Dessinateurs</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Volume">@context.VolumeNumber</MudTd>
+                        <MudTd DataLabel="Titre">
+                            <MudLink Href="#" OnClick="@(async _ => await SelectAlbumAsync(context))">@context.Title</MudLink>
+                        </MudTd>
+                        <MudTd DataLabel="Annee">@context.ReleaseYear</MudTd>
+                        <MudTd DataLabel="Possede">
+                            <MudIcon Icon="@(context.IsOwned ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.RadioButtonUnchecked)"
+                                     Color="@(context.IsOwned ? Color.Success : Color.Default)" />
+                        </MudTd>
+                        <MudTd DataLabel="Dessinateurs">@string.Join(", ", context.Illustrators)</MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" md="5">
+        <MudPaper Class="pa-4" Outlined="true">
+            <MudText Typo="Typo.h5">@(_editModel.Id is null ? "Creer un album" : $"Modifier l'album #{_editModel.Id}")</MudText>
+
+            <MudForm @ref="_form" Class="mt-4">
+                <MudNumericField T="int" Label="Numero de volume" @bind-Value="_editModel.VolumeNumber" Required="true" Variant="Variant.Outlined" />
+                <MudTextField Label="Titre" @bind-Value="_editModel.Title" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Date parution Dargaud" @bind-Value="_editModel.DargaudPublicationDate" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Scenario" @bind-Value="_editModel.Scenario" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Dessin" @bind-Value="_editModel.Drawing" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="ISBN / EAN" @bind-Value="_editModel.IsbnEan" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudNumericField T="int" Label="Annee de sortie" @bind-Value="_editModel.ReleaseYear" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Code serie" @bind-Value="_editModel.SeriesCode" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Titre serie" @bind-Value="_editModel.SeriesTitle" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Dessinateurs" HelperText="Separes par des virgules si necessaire" @bind-Value="_editModel.IllustratorsText" Variant="Variant.Outlined" Class="mt-3" />
+                <MudCheckBox T="bool" Label="Deja possede" @bind-Value="_editModel.IsOwned" Color="Color.Success" Class="mt-3" />
+                <MudTextField Label="URL Dargaud" @bind-Value="_editModel.DargaudUrl" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="URL de couverture" @bind-Value="_editModel.CoverImageUrl" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Source resume" @bind-Value="_editModel.SummarySourceUrl" Required="true" Variant="Variant.Outlined" Class="mt-3" />
+                <MudTextField Label="Resume" @bind-Value="_editModel.Summary" Required="true" Variant="Variant.Outlined" Lines="5" Text="@_editModel.Summary" Class="mt-3" />
+
+                <MudStack Row="true" Spacing="2" Class="mt-4">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveAsync">Enregistrer</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="ResetSelection">Reinitialiser</MudButton>
+                </MudStack>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private MudForm? _form;
+    private bool _isLoading = true;
+    private List<AlbumCardModel> _albums = new();
+    private AlbumAdminModel _editModel = CreateDefaultModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        try
+        {
+            _albums = (await CatalogViewService.GetCatalogAsync()).ToList();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private Task SelectAlbumAsync(AlbumCardModel album)
+    {
+        _editModel = AlbumAdminModel.FromCard(album);
+        return Task.CompletedTask;
+    }
+
+    private void PrepareCreate()
+    {
+        _editModel = CreateDefaultModel();
+    }
+
+    private void ResetSelection()
+    {
+        _editModel = CreateDefaultModel();
+    }
+
+    private async Task SaveAsync()
+    {
+        if (_form is not null)
+        {
+            await _form.Validate();
+            if (!_form.IsValid)
+            {
+                return;
+            }
+        }
+
+        try
+        {
+            AlbumCardModel saved;
+            if (_editModel.Id is null)
+            {
+                saved = await CatalogViewService.CreateAlbumAsync(_editModel);
+                _albums.Add(saved);
+                Snackbar.Add("Album cree.", Severity.Success);
+            }
+            else
+            {
+                saved = await CatalogViewService.UpdateAlbumAsync(_editModel);
+                var index = _albums.FindIndex(item => item.Id == saved.Id);
+                if (index >= 0)
+                {
+                    _albums[index] = saved;
+                }
+                Snackbar.Add("Album mis a jour.", Severity.Success);
+            }
+
+            _albums = _albums.OrderBy(item => item.SeriesTitle).ThenBy(item => item.VolumeNumber).ToList();
+            _editModel = AlbumAdminModel.FromCard(saved);
+            StateHasChanged();
+        }
+        catch (Exception exception)
+        {
+            Snackbar.Add($"Operation impossible: {exception.Message}", Severity.Error);
+        }
+    }
+
+    private static AlbumAdminModel CreateDefaultModel()
+    {
+        return new AlbumAdminModel
+        {
+            DargaudPublicationDate = DateTime.UtcNow.ToString("dd.MM.yyyy"),
+            ReleaseYear = DateTime.UtcNow.Year,
+            Scenario = "François Froideval",
+            SeriesCode = "LUNE-NOIRE",
+            SeriesTitle = "Les Chroniques de la Lune Noire"
+        };
+    }
+}

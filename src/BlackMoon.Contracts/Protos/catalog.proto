@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option csharp_namespace = "BlackMoon.Contracts";
+
+package blackmoon.catalog;
+
+service CatalogGrpc {
+  rpc GetCatalog (GetCatalogRequest) returns (GetCatalogReply);
+  rpc GetAlbum (GetAlbumRequest) returns (GetAlbumReply);
+  rpc CreateAlbum (CreateAlbumRequest) returns (GetAlbumReply);
+  rpc UpdateAlbum (UpdateAlbumRequest) returns (GetAlbumReply);
+  rpc SetAlbumOwned (SetAlbumOwnedRequest) returns (GetAlbumReply);
+}
+
+message GetCatalogRequest {}
+
+message GetAlbumRequest {
+  int32 id = 1;
+}
+
+message CreateAlbumRequest {
+  int32 volume_number = 1;
+  string title = 2;
+  string dargaud_publication_date = 3;
+  string scenario = 4;
+  string drawing = 5;
+  string isbn_ean = 6;
+  int32 release_year = 7;
+  string summary = 8;
+  string dargaud_url = 9;
+  string cover_image_url = 10;
+  string summary_source_url = 11;
+  string series_code = 12;
+  string series_title = 13;
+  repeated string illustrators = 14;
+  bool is_owned = 15;
+}
+
+message UpdateAlbumRequest {
+  int32 id = 1;
+  int32 volume_number = 2;
+  string title = 3;
+  string dargaud_publication_date = 4;
+  string scenario = 5;
+  string drawing = 6;
+  string isbn_ean = 7;
+  int32 release_year = 8;
+  string summary = 9;
+  string dargaud_url = 10;
+  string cover_image_url = 11;
+  string summary_source_url = 12;
+  string series_code = 13;
+  string series_title = 14;
+  repeated string illustrators = 15;
+  bool is_owned = 16;
+}
+
+message SetAlbumOwnedRequest {
+  int32 id = 1;
+  bool is_owned = 2;
+}
+
+message AlbumItem {
+  int32 id = 1;
+  int32 volume_number = 2;
+  string title = 3;
+  string dargaud_publication_date = 4;
+  string scenario = 5;
+  string drawing = 6;
+  string isbn_ean = 7;
+  int32 release_year = 8;
+  string summary = 9;
+  string dargaud_url = 10;
+  string cover_image_url = 11;
+  string summary_source_url = 12;
+  string series_title = 13;
+  string series_code = 14;
+  repeated string illustrators = 15;
+  bool is_owned = 16;
+}
+
+message GetCatalogReply {
+  repeated AlbumItem items = 1;
+}
+
+message GetAlbumReply {
+  AlbumItem album = 1;
+}

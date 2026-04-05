@@ -2,16 +2,12 @@ param(
     [string]$DatabasePath = "library.db"
 )
 
-$sqlite = Get-Command sqlite3 -ErrorAction SilentlyContinue
-if (-not $sqlite) {
-    throw "sqlite3 is required to apply migrations. Install sqlite3 and rerun this script."
-}
-
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-Get-ChildItem (Join-Path $root "migrations") -Filter "*.sql" |
-    Sort-Object Name |
-    ForEach-Object {
-        Get-Content $_.FullName | & $sqlite.Source $DatabasePath
-        Write-Output "Applied migration: $($_.Name)"
-    }
+dotnet run --project (Join-Path $root "..\..\tools\library-db-builder") -- migrate $root $DatabasePath
+
+if ($LASTEXITCODE -ne 0) {
+    throw "Migration failed."
+}
+
+Write-Output "SQLite migrations applied to $DatabasePath"

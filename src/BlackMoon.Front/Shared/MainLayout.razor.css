@@ -1,0 +1,10 @@
+.layout-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.layout-nav {
+    border-radius: 14px;
+}
