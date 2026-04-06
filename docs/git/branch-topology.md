@@ -42,6 +42,8 @@ gitGraph
     branch evol01-sqlite-front
     checkout evol01-sqlite-front
     commit id: "7f4d69e"
+    commit id: "6477c97"
+    commit id: "45dd026"
 ```
 
 ## Lecture rapide
@@ -50,7 +52,7 @@ gitGraph
 - `Shape` diverge aussi directement de `main`.
 - `evol01` diverge de `main`.
 - `evol01-sqlite` diverge de `evol01`.
-- `evol01-sqlite-front` diverge de `evol01-sqlite` et ajoute un commit supplementaire `7f4d69e`.
+- `evol01-sqlite-front` diverge de `evol01-sqlite` et ajoute successivement les commits `7f4d69e`, `6477c97` puis `45dd026`.
 - `evol01-sqlite-front` est la branche courante.
 
 ## Etat local et distant
@@ -65,4 +67,4 @@ gitGraph
 - `dev` pointe sur `97d6e320cb66efefd4e06e36e81aa6f374403b46`.
 - `evol01` pointe sur `db212e70112fdacc5c502e16bd74c2134bcedede`.
 - `evol01-sqlite` pointe sur `80852f1569334449a1c6aa143b7b7cc02ffcdd91`.
-- `evol01-sqlite-front` pointe sur `7f4d69e9f16ec9664dc3c3c7a57a0eca4e14a19e`.
+- `evol01-sqlite-front` pointe sur `45dd0261bfeaeaa3b447a1dd133dbafb4946c3c8`.
