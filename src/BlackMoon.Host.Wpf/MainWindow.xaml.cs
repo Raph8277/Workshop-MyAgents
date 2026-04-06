@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace BlackMoon.Host.Wpf;
 
@@ -9,6 +10,7 @@ public partial class MainWindow : Window
 {
     private const int FrontPort = 5000;
     private const int BackendPort = 5117;
+    private readonly Uri _backendUri = new("http://localhost:5117");
     private readonly Uri _frontUri = new("http://localhost:5000");
     private Process? _frontProcess;
 
@@ -59,13 +61,30 @@ public partial class MainWindow : Window
 
     private void OpenFront_Click(object sender, RoutedEventArgs e)
     {
+        OpenUri(_frontUri, "Front URL opened in the default browser.");
+    }
+
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        OpenUri(e.Uri, $"Opened {e.Uri} in the default browser.");
+        e.Handled = true;
+    }
+
+    private void OpenUri(Uri uri, string logMessage)
+    {
         Process.Start(new ProcessStartInfo
         {
-            FileName = _frontUri.ToString(),
+            FileName = uri.ToString(),
             UseShellExecute = true
         });
 
-        AddLog("Front URL opened in the default browser.");
+        if (uri == _backendUri && !BackendRuntime.IsRunning)
+        {
+            AddLog("Backend URL opened. The backend may still need to be started.");
+            return;
+        }
+
+        AddLog(logMessage);
     }
 
     private static Process StartDotNetProject(string relativeProjectPath, string launchProfile)

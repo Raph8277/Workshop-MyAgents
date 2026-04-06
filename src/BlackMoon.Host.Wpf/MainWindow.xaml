@@ -44,13 +44,23 @@
                     <StackPanel Margin="0,20,0,0">
                         <TextBlock FontWeight="SemiBold" Text="Backend gRPC" />
                         <TextBlock x:Name="BackendStatusText" Margin="0,6,0,0" Text="Stopped" />
-                        <TextBlock Margin="0,4,0,0" Text="URL: http://localhost:5117" />
+                        <TextBlock Margin="0,4,0,0">
+                            <Run Text="URL: " />
+                            <Hyperlink NavigateUri="http://localhost:5117" RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text="http://localhost:5117" />
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
 
                     <StackPanel Margin="0,20,0,0">
                         <TextBlock FontWeight="SemiBold" Text="Front Blazor" />
                         <TextBlock x:Name="FrontStatusText" Margin="0,6,0,0" Text="Stopped" />
-                        <TextBlock Margin="0,4,0,0" Text="URL: http://localhost:5000" />
+                        <TextBlock Margin="0,4,0,0">
+                            <Run Text="URL: " />
+                            <Hyperlink NavigateUri="http://localhost:5000" RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text="http://localhost:5000" />
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
 
                     <TextBlock Margin="0,20,0,0" TextWrapping="Wrap"
