@@ -1,0 +1,66 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "BlackMoon.Contracts/1.0.0": {
+        "dependencies": {
+          "Google.Protobuf": "3.28.2",
+          "Grpc.Core.Api": "2.64.0",
+          "Grpc.Tools": "2.64.0"
+        },
+        "runtime": {
+          "BlackMoon.Contracts.dll": {}
+        }
+      },
+      "Google.Protobuf/3.28.2": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.28.2.0",
+            "fileVersion": "3.28.2.0"
+          }
+        }
+      },
+      "Grpc.Core.Api/2.64.0": {
+        "runtime": {
+          "lib/netstandard2.1/Grpc.Core.Api.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.64.0.0"
+          }
+        }
+      },
+      "Grpc.Tools/2.64.0": {}
+    }
+  },
+  "libraries": {
+    "BlackMoon.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Google.Protobuf/3.28.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z86ZKAB+v1B/m0LTM+EVamvZlYw/g3VND3/Gs4M/+aDIxa2JE9YPKjDxTpf0gv2sh26hrve3eI03brxBmzn92g==",
+      "path": "google.protobuf/3.28.2",
+      "hashPath": "google.protobuf.3.28.2.nupkg.sha512"
+    },
+    "Grpc.Core.Api/2.64.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CFwvZT56TU9D4Znz2qGz2S7XtXjo+t2DlTsa12vs+rKRwOuUI3dv/5vnh7LRgMDcumWOzR8L6IbtCYtJmcp3Rg==",
+      "path": "grpc.core.api/2.64.0",
+      "hashPath": "grpc.core.api.2.64.0.nupkg.sha512"
+    },
+    "Grpc.Tools/2.64.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W5RrhDFHUhioASktxfuDs5fTjWUxwegljZAig9zFL8nWNskeyQA6OXN2choWKYxGrljer25VqCJCMbWz7XHvqg==",
+      "path": "grpc.tools/2.64.0",
+      "hashPath": "grpc.tools.2.64.0.nupkg.sha512"
+    }
+  }
+}

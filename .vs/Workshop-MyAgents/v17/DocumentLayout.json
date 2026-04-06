@@ -1,0 +1,133 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\repos\\Workshop-MyAgents\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|g:\\repos\\workshop-myagents\\src\\blackmoon.host.wpf\\backendruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|solutionrelative:src\\blackmoon.host.wpf\\backendruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|g:\\repos\\workshop-myagents\\src\\blackmoon.host.wpf\\wpfcataloggrpcservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|solutionrelative:src\\blackmoon.host.wpf\\wpfcataloggrpcservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|g:\\repos\\workshop-myagents\\src\\blackmoon.host.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37C6D67-7429-4728-8D87-02A96B64CE46}|src\\BlackMoon.Host.Wpf\\BlackMoon.Host.Wpf.csproj|solutionrelative:src\\blackmoon.host.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{037C2DB5-C4C3-4B31-B0E6-D073CA9135C8}|src\\BlackMoon.Contracts\\BlackMoon.Contracts.csproj|g:\\repos\\workshop-myagents\\src\\blackmoon.contracts\\protos\\catalog.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{037C2DB5-C4C3-4B31-B0E6-D073CA9135C8}|src\\BlackMoon.Contracts\\BlackMoon.Contracts.csproj|solutionrelative:src\\blackmoon.contracts\\protos\\catalog.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19298011-2780-4B7A-B416-814B9FFD9BFB}|tests\\BlackMoon.Tests\\BlackMoon.Tests.csproj|g:\\repos\\workshop-myagents\\tests\\blackmoon.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{19298011-2780-4B7A-B416-814B9FFD9BFB}|tests\\BlackMoon.Tests\\BlackMoon.Tests.csproj|solutionrelative:tests\\blackmoon.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BackendRuntime.cs",
+              "DocumentMoniker": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\BackendRuntime.cs",
+              "RelativeDocumentMoniker": "src\\BlackMoon.Host.Wpf\\BackendRuntime.cs",
+              "ToolTip": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\BackendRuntime.cs",
+              "RelativeToolTip": "src\\BlackMoon.Host.Wpf\\BackendRuntime.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCwAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T19:50:58.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WpfCatalogGrpcService.cs",
+              "DocumentMoniker": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\WpfCatalogGrpcService.cs",
+              "RelativeDocumentMoniker": "src\\BlackMoon.Host.Wpf\\WpfCatalogGrpcService.cs",
+              "ToolTip": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\WpfCatalogGrpcService.cs",
+              "RelativeToolTip": "src\\BlackMoon.Host.Wpf\\WpfCatalogGrpcService.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAUwAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T19:50:40.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "src\\BlackMoon.Host.Wpf\\MainWindow.xaml.cs",
+              "ToolTip": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Host.Wpf\\MainWindow.xaml.cs",
+              "RelativeToolTip": "src\\BlackMoon.Host.Wpf\\MainWindow.xaml.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T19:50:33.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "catalog.proto",
+              "DocumentMoniker": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Contracts\\Protos\\catalog.proto",
+              "RelativeDocumentMoniker": "src\\BlackMoon.Contracts\\Protos\\catalog.proto",
+              "ToolTip": "G:\\repos\\Workshop-MyAgents\\src\\BlackMoon.Contracts\\Protos\\catalog.proto",
+              "RelativeToolTip": "src\\BlackMoon.Contracts\\Protos\\catalog.proto",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2026-04-05T19:44:20.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "G:\\repos\\Workshop-MyAgents\\tests\\BlackMoon.Tests\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "tests\\BlackMoon.Tests\\UnitTest1.cs",
+              "ToolTip": "G:\\repos\\Workshop-MyAgents\\tests\\BlackMoon.Tests\\UnitTest1.cs",
+              "RelativeToolTip": "tests\\BlackMoon.Tests\\UnitTest1.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAkwAYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T17:05:35.84Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
